@@ -1,0 +1,19 @@
+{
+  "name": "hss.js",
+  "version": "0.0.0",
+  "description": "",
+  "main": "hss.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sporeball/hss.js.git"
+  },
+  "author": "sporeball",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sporeball/hss.js/issues"
+  },
+  "homepage": "https://github.com/sporeball/hss.js#readme"
+}
