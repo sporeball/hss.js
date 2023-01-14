@@ -2,7 +2,8 @@
   "name": "hss.js",
   "version": "0.0.0",
   "description": "",
-  "main": "hss.js",
+  "type": "module",
+  "exports": "./hss.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
