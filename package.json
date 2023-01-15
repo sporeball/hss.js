@@ -1,7 +1,7 @@
 {
   "name": "hss.js",
   "version": "0.0.0",
-  "description": "",
+  "description": "library for Haskell-style strings in JavaScript - so bad it'll make you hiss",
   "type": "module",
   "exports": "./hss.js",
   "scripts": {
@@ -10,6 +10,17 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sporeball/hss.js.git"
+  },
+  "keywords": {
+    "string",
+    "strings",
+    "list",
+    "char",
+    "chars",
+    "character",
+    "characters",
+    "library",
+    "haskell"
   },
   "author": "sporeball",
   "license": "MIT",
