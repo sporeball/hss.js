@@ -1,6 +1,6 @@
 {
   "name": "@sporeball/hss.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "library for Haskell-style strings in JavaScript - so bad it'll make you hiss",
   "type": "module",
   "exports": "./hss.js",
