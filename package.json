@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/sporeball/hss.js.git"
   },
-  "keywords": {
+  "keywords": [
     "string",
     "strings",
     "list",
@@ -21,7 +21,7 @@
     "characters",
     "library",
     "haskell"
-  },
+  ],
   "author": "sporeball",
   "license": "MIT",
   "bugs": {
