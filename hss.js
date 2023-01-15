@@ -235,11 +235,97 @@ export default class Hss {
   }
 
   /**
+   * Return a new Hss formed by replacing one or more matches of a pattern with
+   * a replacement.
+   * @param {Hss|string|RegExp} pattern
+   * @param {Hss|string} replacement
+   * @returns {Hss}
+   */
+  replace (pattern, replacement) {
+    if (pattern instanceof Hss) {
+      pattern = pattern.toString();
+    }
+    if (replacement instanceof Hss) {
+      replacement = replacement.toString();
+    }
+    return new Hss(
+      this.toString().replace(pattern, replacement)
+    );
+  }
+
+  /**
+   * Return a new Hss formed by extracting a section of this Hss.
+   * Slices from startIndex (inclusive) to endIndex (exclusive).
+   * @param {number} startIndex
+   * @param {number} [endIndex]
+   */
+  slice (startIndex, endIndex = Infinity) {
+    return new Hss(this.value.slice(startIndex, endIndex));
+  }
+
+  /**
+   * Return whether this Hss starts with a specific value.
+   * Searches from startPosition to the end of the string.
+   * @param {Hss|string} searchValue
+   * @param {number} [startPosition]
+   * @returns {boolean}
+   */
+  startsWith (searchValue, startPosition = 0) {
+    // start at the start position
+    return this.value.slice(startPosition)
+      // take the first (length of searchValue) characters
+      .slice(0, [...searchValue.valueOf()].length)
+      // assert that all of them match those of searchValue
+      .every((ch, i) => ch === [...searchValue.valueOf()][i]);
+  }
+
+  /**
+   * Return a new Hss formed by lowercasing this Hss.
+   * @returns {Hss}
+   */
+  toLowerCase () {
+    return new Hss(this.value.map(ch => ch.toLowerCase()));
+  }
+
+  /**
    * Return this Hss as a primitive string.
    * @returns {string}
    */
   toString() {
     return this.value.join('');
+  }
+
+  /**
+   * Return a new Hss formed by uppercasing this Hss.
+   * @returns {Hss}
+   */
+  toUpperCase () {
+    return new Hss(this.value.map(ch => ch.toUpperCase()));
+  }
+
+  /**
+   * Return a new Hss formed by removing whitespace from both the start and end
+   * of this Hss.
+   * @returns {Hss}
+   */
+  trim () {
+    return new Hss(this.toString().trim());
+  }
+
+  /**
+   * Return a new Hss formed by removing whitespace from the end of this Hss.
+   * @returns {Hss}
+   */
+  trimEnd () {
+    return new Hss(this.toString().trimEnd());
+  }
+
+  /**
+   * Return a new Hss formed by removing whitespace from the start of this Hss.
+   * @returns {Hss}
+   */
+  trimStart () {
+    return new Hss(this.toString().trimStart());
   }
 
   /**

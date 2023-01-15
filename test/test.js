@@ -6,6 +6,8 @@ tentamen.fn = () => (x => x)(tentamen.input);
 
 const str1 = new Hss('Hello, World!');
 const str2 = new Hss('😄 and 😄 and also 😄');
+const str3 = new Hss('foo');
+const str4 = new Hss('😄😄');
 
 /**
  * in this file, test titles use some magic words:
@@ -182,6 +184,116 @@ tentamen.add(
   'Hss -> RegExp (sp)',
   str2.match(/\ud83d\ude04/g),
   [new Hss('\ud83d\ude04'), new Hss('\ud83d\ude04'), new Hss('\ud83d\ude04')]
+);
+
+/**
+ * padEnd
+ */
+tentamen.suite('padEnd');
+tentamen.add(
+  'Hss -> Hss (even)',
+  str3.padEnd(9, new Hss('bar')),
+  new Hss('foobarbar')
+);
+tentamen.add(
+  'Hss -> string (uneven)',
+  str3.padEnd(13, 'quux'),
+  new Hss('fooquuxquuxqu')
+);
+tentamen.add(
+  'Hss -> string (no-op)',
+  str3.padEnd(2, 'a'),
+  new Hss('foo')
+);
+tentamen.add(
+  'Hss -> string (sp)',
+  str4.padEnd(5, 'a'),
+  new Hss('\ud83d\ude04\ud83d\ude04aaa')
+);
+
+/**
+ * padStart
+ */
+tentamen.suite('padStart');
+tentamen.add(
+  'Hss -> Hss (even)',
+  str3.padStart(9, new Hss('bar')),
+  new Hss('barbarfoo')
+);
+tentamen.add(
+  'Hss -> string (uneven)',
+  str3.padStart(13, 'quux'),
+  new Hss('quuxquuxqufoo')
+);
+tentamen.add(
+  'Hss -> string (no-op)',
+  str3.padStart(2, 'a'),
+  new Hss('foo')
+);
+tentamen.add(
+  'Hss -> string (sp)',
+  str4.padStart(5, 'a'),
+  new Hss('aaa\ud83d\ude04\ud83d\ude04')
+);
+
+/**
+ * repeat
+ */
+tentamen.suite('repeat');
+tentamen.add(
+  'zero',
+  str3.repeat(0),
+  new Hss('')
+);
+tentamen.add(
+  'one',
+  str3.repeat(1),
+  new Hss('foo')
+);
+tentamen.add(
+  'five',
+  str3.repeat(5),
+  new Hss('foofoofoofoofoo')
+);
+
+/**
+ * replace
+ */
+tentamen.suite('replace');
+tentamen.add(
+  'Hss -> Hss',
+  str1.replace(new Hss('Hello'), new Hss('Goodbye')),
+  new Hss('Goodbye, World!')
+);
+tentamen.add(
+  'Hss -> string',
+  str3.replace('foo', 'bar'),
+  new Hss('bar')
+);
+tentamen.add(
+  'Hss -> RegExp (sp)',
+  str4.replace(/\ud83d\ude04/g, '😍'),
+  new Hss('\ud83d\ude0d\ud83d\ude0d')
+);
+
+/**
+ * startsWith
+ */
+tentamen.suite('startsWith');
+tentamen.add(
+  'Hss -> Hss',
+  str1.startsWith(new Hss('Hello,')),
+  true
+);
+tentamen.add(
+  'Hss -> string',
+  str1.startsWith('Hello,'),
+  true
+);
+tentamen.add(
+  'Hss -> string (sp)',
+  str2.startsWith('\ud83d\ude04'),
+  true
 );
 
 tentamen.done();
