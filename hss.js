@@ -517,4 +517,12 @@ export default class Hss {
     }
     return this.value.unshift(...values);
   }
+
+  /**
+   * Return the length of this Hss.
+   * @returns {number}
+   */
+  get length () {
+    return this.value.length;
+  }
 }
