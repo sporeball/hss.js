@@ -49,7 +49,8 @@ export default class Hss {
     if (index < 0) {
       return undefined;
     }
-    return this.value[index].codePointAt(0);
+    return this.value[index] // character at index
+      .codePointAt(0); // top
   }
 
   codePointAt (index = 0) {
@@ -63,7 +64,9 @@ export default class Hss {
    */
   concat (...strs) {
     let value = this.value;
+    // for each parameter
     for (const str of strs) {
+      // concatenate that parameter, spread
       value = value.concat([...str.valueOf()]);
     }
     return new Hss(value);
@@ -77,8 +80,11 @@ export default class Hss {
    * @returns {boolean}
    */
   endsWith (searchValue, endPosition = this.value.length) {
+    // end at the end position
     return this.value.slice(0, endPosition)
+      // take the last (length of searchValue) characters
       .slice(-[...searchValue.valueOf()].length)
+      // assert that all of them match those of searchValue
       .every((ch, i) => ch === [...searchValue.valueOf()][i]);
   }
 
@@ -107,9 +113,13 @@ export default class Hss {
     if (startPosition > this.value.length) {
       return -1;
     }
+    // start at the start position
     return this.value.slice(startPosition)
+      // find the first index where
       .findIndex((ch, i, value) => {
+        // (length of searchValue) consecutive characters
         return value.slice(i, [...searchValue.valueOf()].length + i)
+          // are all equal to those of searchValue
           .every((ch, i) => ch === [...searchValue.valueOf()][i]);
       }) + startPosition;
   }
@@ -125,9 +135,13 @@ export default class Hss {
     if (endPosition < 0) {
       endPosition = 0;
     }
+    // end at the end position
     return this.value.slice(0, endPosition + 1)
+      // find the last index where
       .findLastIndex((ch, i, value) => {
+        // (length of searchValue) consecutive characters
         return value.slice(i, [...searchValue.valueOf()].length + i)
+          // are all equal to those of searchValue
           .every((ch, i) => ch === [...searchValue.valueOf()][i]);
       });
   }
@@ -144,8 +158,80 @@ export default class Hss {
     if (value instanceof Hss) {
       value = value.toString();
     }
+    // cast to string, and match
     return (this.toString().match(new RegExp(value)) || [])
+      // cast each to Hss
       .map(match => new Hss(match));
+  }
+
+  /**
+   * Return a new Hss consisting of this Hss padded to length targetLength with
+   * padValue.
+   * The padding is applied from the end of this Hss.
+   * @param {number} targetLength
+   * @param {Hss|string} [padValue]
+   * @returns {Hss}
+   */
+  padEnd (targetLength, padValue = ' ') {
+    let value = this.value;
+    // concat the full padValue as many times as possible
+    while (value.length + padValue.valueOf().length <= targetLength) {
+      value = value.concat([...padValue.valueOf()]);
+    }
+    // concat a portion of padValue one time
+    value = value.concat(
+      [...padValue.valueOf()].slice(
+        0, targetLength - value.length
+      )
+    );
+    return new Hss(value);
+  }
+
+  /**
+   * Return a new Hss consisting of this Hss padded to length targetLength with
+   * padValue.
+   * The padding is applied from the beginning of this Hss.
+   * @param {number} targetLength
+   * @param {Hss|string} [padValue]
+   * @returns {Hss}
+   */
+  padStart (targetLength, padValue = ' ') {
+    let value = this.value;
+    let concatValue = [];
+    // concat the full padValue as many times as possible
+    while (
+      value.length + concatValue.length + padValue.valueOf().length <=
+      targetLength
+    ) {
+      concatValue = concatValue.concat([...padValue.valueOf()]);
+    }
+    // concat a portion of padValue one time
+    concatValue = concatValue.concat([...padValue.valueOf()].slice(
+      0, targetLength - value.length - concatValue.length
+    ));
+    value = concatValue.concat([...value]);
+    return new Hss(value);
+  }
+
+  /**
+   * Return a new Hss consisting of this Hss repeated a certain number of
+   * times.
+   * @param {number} count
+   * @returns {Hss}
+   */
+  repeat (count) {
+    if (count < 0) {
+      throw new RangeError('invalid repeat count');
+    }
+    if (count === 0) {
+      return new Hss('');
+    }
+    let originalValue = this.value;
+    let value = this.value;
+    for (let i = 1; i < count; i++) {
+      value = value.concat(originalValue);
+    }
+    return new Hss(value);
   }
 
   /**
