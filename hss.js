@@ -4,14 +4,18 @@
   MIT license
 */
 
+import { default as trueStringLength } from 'string-length';
+
 export default class Hss {
   constructor (value) {
     if (typeof value === 'string') {
       this.value = [...value];
     }
     if (Array.isArray(value)) {
-      // TODO: throw if any element is multiple characters long
-      this.value = value;
+      if (value.some(ch => trueStringLength(ch) > 1)) {
+        throw new Error('found an element longer than 1 character');
+      }
+      this.value = [...value];
     }
   }
 
@@ -334,5 +338,183 @@ export default class Hss {
    */
   valueOf () {
     return this.value;
+  }
+
+  /**
+   * Return whether every character of this Hss passes a testing function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {boolean}
+   */
+  every (cb, thisArg) {
+    return this.value.every(cb, thisArg);
+  }
+
+  /**
+   * Return a new Hss consisting of every character that passes a testing
+   * function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {boolean}
+   */
+  filter (cb, thisArg) {
+    return new Hss(this.value.filter(cb, thisArg));
+  }
+
+  /**
+   * Return the first character of this Hss which passes a testing function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {string}
+   */
+  find (cb, thisArg) {
+    return this.value.find(cb, thisArg);
+  }
+
+  /**
+   * Return the index of the first character of this Hss which passes a testing
+   * function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {number}
+   */
+  findIndex (cb, thisArg) {
+    return this.value.findIndex(cb, thisArg);
+  }
+
+  /**
+   * Return the last character of this Hss which passes a testing function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {string}
+   */
+  findLast (cb, thisArg) {
+    return this.value.findLast(cb, thisArg);
+  }
+
+  /**
+   * Return the index of the last character of this Hss which passes a testing
+   * function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {number}
+   */
+  findLastIndex (cb, thisArg) {
+    return this.value.findLastIndex(cb, thisArg);
+  }
+
+  /**
+   * Return a new Hss formed by applying a callback function to every character
+   * of this Hss, then flattening the result by one level.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {Hss}
+   */
+  flatMap (cb, thisArg) {
+    return new Hss(this.value.flatMap(cb, thisArg))
+  }
+
+  /**
+   * Execute a function once for every character of this Hss.
+   * @param {Function} cb
+   * @param {any} thisArg
+   */
+  forEach (cb, thisArg) {
+    this.value.forEach(cb, thisArg);
+  }
+
+  /**
+   * Return a new Hss formed by applying a callback function to every character
+   * of this Hss.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {Hss}
+   */
+  map (cb, thisArg) {
+    return new Hss(this.value.map(cb, thisArg));
+  }
+
+  /**
+   * Remove the last character from this Hss, and return it.
+   * Mutates the original Hss.
+   */
+  pop () {
+    return this.value.pop();
+  }
+
+  /**
+   * Append one or more characters to the end of this Hss.
+   * Mutates the original Hss.
+   * @param {...string} values
+   */
+  push (...values) {
+    if (values.some(ch => trueStringLength(ch) > 1)) {
+      throw new Error('found an element longer than 1 character');
+    }
+    return this.value.push(...values);
+  }
+
+  /**
+   * Returns a new Hss formed by reversing this Hss.
+   * Does not mutate the original Hss.
+   * @returns {Hss}
+   */
+  reverse () {
+    return new Hss([...this.value].reverse());
+  }
+
+  /**
+   * Remove the first character from this Hss, and return it.
+   * Mutates the original Hss.
+   */
+  shift () {
+    return this.value.shift();
+  }
+
+  /**
+   * Return whether any character of this Hss passes a testing function.
+   * @param {Function} cb
+   * @param {any} thisArg
+   * @returns {boolean}
+   */
+  some (cb, thisArg) {
+    return this.value.some(cb, thisArg);
+  }
+
+  /**
+   * Return a new Hss formed by sorting the characters of this Hss, with the
+   * sort order determined by a function.
+   * Does not mutate the original Hss.
+   * @param {Function} compareFn
+   * @returns {Hss}
+   */
+  sort (compareFn) {
+    if (compareFn === undefined) {
+      return new Hss([...this.value].sort());
+    }
+    return new Hss([...this.value].sort(compareFn));
+  }
+
+  /**
+   * Splice this Hss.
+   * Mutates the original Hss.
+   * @param {number} [start]
+   * @param {number} [deleteCount]
+   * @param {...string} items
+   */
+  splice (start = 0, deleteCount = Infinity, ...items) {
+    return this.value.splice(start, deleteCount, ...items);
+  }
+
+  /**
+   * Prepend one or more characters to the start of this Hss.
+   * Mutates the original Hss.
+   * @param {...string} values
+   */
+  unshift (...values) {
+    if (values.some(ch => trueStringLength(ch) > 1)) {
+      throw new Error('found an element longer than 1 character');
+    }
+    return this.value.unshift(...values);
   }
 }

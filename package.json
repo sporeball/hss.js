@@ -19,5 +19,8 @@
   "homepage": "https://github.com/sporeball/hss.js#readme",
   "devDependencies": {
     "tentamen": "^0.4.1"
+  },
+  "dependencies": {
+    "string-length": "^5.0.1"
   }
 }
