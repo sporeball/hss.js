@@ -1,6 +1,6 @@
 # hss.js
 
-<a href="https://www.npmjs.com/package/hss.js"><img src="https://img.shields.io/npm/v/hss.js" /></a>
+<a href="https://www.npmjs.com/package/@sporeball/hss.js"><img src="https://img.shields.io/npm/v/@sporeball/hss.js" /></a>
 
 > library for Haskell-style strings in JavaScript - so bad it'll make you hiss
 
@@ -26,7 +26,7 @@ it also uses `Array#findLastIndex`, a method compatible only with fairly recent 
 
 ## install
 ```
-$ npm install hss.js
+$ npm install @sporeball/hss.js
 ```
 
 ## API
