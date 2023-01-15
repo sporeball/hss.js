@@ -64,7 +64,7 @@ export default class Hss {
   concat (...strs) {
     let value = this.value;
     for (const str of strs) {
-      value = value.concat([...str.toString()]);
+      value = value.concat([...str.valueOf()]);
     }
     return new Hss(value);
   }
@@ -78,14 +78,15 @@ export default class Hss {
    */
   endsWith (searchValue, endPosition = this.value.length) {
     return this.value.slice(0, endPosition)
-      .slice(-searchValue.valueOf().length)
-      .every((ch, i) => ch === searchValue.valueOf()[i]);
+      .slice(-[...searchValue.valueOf()].length)
+      .every((ch, i) => ch === [...searchValue.valueOf()][i]);
   }
 
   /**
    * Return whether a value can be found within this Hss.
+   * Searches from startPosition to the end of the string.
    * @param {Hss|string} searchValue
-   * @param {number} startPosition
+   * @param {number} [startPosition]
    * @returns {boolean}
    */
   includes (searchValue, startPosition = 0) {
@@ -93,20 +94,58 @@ export default class Hss {
   }
 
   /**
-   * Return the index where a value can be found within this Hss.
+   * Return the first index where a value can be found within this Hss.
+   * Searches from startPosition to the end of the string.
    * @param {Hss|string} searchValue
-   * @param {number} startPosition
-   * @returns {boolean}
+   * @param {number} [startPosition]
+   * @returns {number}
    */
   indexOf (searchValue, startPosition = 0) {
     if (startPosition < 0) {
       startPosition = 0;
     }
+    if (startPosition > this.value.length) {
+      return -1;
+    }
     return this.value.slice(startPosition)
       .findIndex((ch, i, value) => {
-        return value.slice(i, searchValue.valueOf().length + i)
-          .every((ch, i) => ch === searchValue.valueOf()[i]);
+        return value.slice(i, [...searchValue.valueOf()].length + i)
+          .every((ch, i) => ch === [...searchValue.valueOf()][i]);
+      }) + startPosition;
+  }
+
+  /**
+   * Return the last index where a value can be found within this Hss.
+   * Searches from index 0 to endPosition (both inclusive).
+   * @param {Hss|string} searchValue
+   * @param {number} [endPosition]
+   * @returns {number}
+   */
+  lastIndexOf (searchValue, endPosition = Infinity) {
+    if (endPosition < 0) {
+      endPosition = 0;
+    }
+    return this.value.slice(0, endPosition + 1)
+      .findLastIndex((ch, i, value) => {
+        return value.slice(i, [...searchValue.valueOf()].length + i)
+          .every((ch, i) => ch === [...searchValue.valueOf()][i]);
       });
+  }
+
+  /**
+   * Return an array of Hss instances based on the result of matching this Hss
+   * against a value.
+   * If the match value is a Hss or a primitive string, only the first match
+   * will be returned.
+   * @param {Hss|string|RegExp} value
+   * @returns {Hss[]}
+   */
+  match (value) {
+    if (value instanceof Hss) {
+      value = value.toString();
+    }
+    return (this.toString().match(new RegExp(value)) || [])
+      .map(match => new Hss(match));
   }
 
   /**

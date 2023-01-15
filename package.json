@@ -5,7 +5,7 @@
   "type": "module",
   "exports": "./hss.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sporeball/hss.js/issues"
   },
-  "homepage": "https://github.com/sporeball/hss.js#readme"
+  "homepage": "https://github.com/sporeball/hss.js#readme",
+  "devDependencies": {
+    "tentamen": "^0.4.1"
+  }
 }
