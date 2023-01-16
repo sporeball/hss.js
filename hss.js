@@ -268,6 +268,26 @@ export default class Hss {
   }
 
   /**
+   * Return an array of Hss instances based on the result of splitting this
+   * Hss.
+   * @param {Hss|string} separator
+   * @param {number} [limit]
+   */
+  split (separator, limit) {
+    if (separator instanceof Hss) {
+      separator = separator.toString();
+    }
+    if (limit === undefined) {
+      return this.toString()
+        .split(separator)
+        .map(substring => new Hss(substring));
+    }
+    return this.toString()
+      .split(separator, limit)
+      .map(substring => new Hss(substring));
+  }
+
+  /**
    * Return whether this Hss starts with a specific value.
    * Searches from startPosition to the end of the string.
    * @param {Hss|string} searchValue

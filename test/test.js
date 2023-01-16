@@ -1,4 +1,4 @@
-import Hss from 'hss.js';
+import Hss from '../hss.js';
 import Tentamen from 'tentamen';
 
 let tentamen = new Tentamen({});
@@ -274,6 +274,21 @@ tentamen.add(
   'Hss -> RegExp (sp)',
   str4.replace(/\ud83d\ude04/g, '😍'),
   new Hss('\ud83d\ude0d\ud83d\ude0d')
+);
+
+/**
+ * split
+ */
+tentamen.suite('split');
+tentamen.add(
+  'Hss -> Hss',
+  str1.split(new Hss(' ')),
+  [new Hss('Hello,'), new Hss('World!')]
+);
+tentamen.add(
+  'Hss -> string (sp)',
+  str2.split('\ud83d\ude04', 2),
+  [new Hss(''), new Hss(' and ')]
 );
 
 /**
